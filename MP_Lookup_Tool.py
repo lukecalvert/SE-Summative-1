@@ -59,4 +59,5 @@ while counter < maxRecords:
         pComplete = str(round(counter/maxRecords * 100,2))
     print("\rCompleted: "+pComplete+"%")
     
-df1
+df1.to_excel("output.xlsx", index=False)
+print('output file created')
