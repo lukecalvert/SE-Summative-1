@@ -14,7 +14,8 @@ df1 = df = pd.DataFrame({"MP ID":[],
                         "Address as":[],
                         "Constituency ID":[],
                         "Constituency":[],
-                        "email":[]
+                        "email":[],
+                        "Party": []
                         })
 
 
@@ -32,6 +33,7 @@ while counter < maxRecords:
         constituencyName = item['value']['latestHouseMembership']['membershipFrom']
         constituencyID = item['value']['latestHouseMembership']['membershipFromId']
         house = item['value']['latestHouseMembership']['house']
+        party = item['value']['latestParty']['name']
 
         statusDescription = item['value']['latestHouseMembership']['membershipStatus']['statusDescription']
 
@@ -54,7 +56,8 @@ while counter < maxRecords:
                             "Address as": [nameAddressAs], 
                             "Constituency ID": [int(constituencyID)], 
                             "Constituency": [constituencyName], 
-                            "email": [email]})
+                            "email": [email],
+                            "Party" : [party]})
         df1 = pd.concat([df1, df2], axis=0)
         pComplete = str(round(counter/maxRecords * 100,2))
     print("\rCompleted: "+pComplete+"%")
