@@ -1,6 +1,7 @@
-# Import libraries
+# Import necessary libraries
 import requests
 import pandas as pd
+from datetime import datetime
 
 # Define the initial API request
 initialRequest = requests.get("https://members-api.parliament.uk/api/Location/Constituency/Search?name=?&skip=0&take=20")
@@ -19,6 +20,10 @@ df1 = pd.DataFrame({"MP ID":[],
                     "email":[],
                     "Party": []
                     })
+
+# Define the output file name
+date_str = datetime.now().strftime('%Y%m%d')
+output_file = f'.\{date_str}-mp_details.csv'
 
 # Initialize an empty list to store the records
 records = []
@@ -53,14 +58,13 @@ def fetch_data(counter):
                             "Party": party})
     except Exception as e:
         print(f"Error: {e}")
-
+        
 for counter in range(0, maxRecords, 20):
     fetch_data(counter)
-
 
 # Convert the records to a DataFrame
 df1 = pd.DataFrame(records)
 
 # Write the DataFrame to a CSV file
-df1.to_csv("output.csv", index=False)
+df1.to_csv(output_file, index=False)
 print('output file created')
