@@ -1,6 +1,6 @@
-# Import necessary libraries
 import requests
 import pandas as pd
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 
 # Define the initial API request
@@ -59,8 +59,10 @@ def fetch_data(counter):
     except Exception as e:
         print(f"Error: {e}")
         
-for counter in range(0, maxRecords, 20):
-    fetch_data(counter)
+# Use ThreadPoolExecutor to make parallel requests
+with ThreadPoolExecutor(max_workers=33) as executor:
+    for counter in range(0, maxRecords, 20):
+        executor.submit(fetch_data, counter)
 
 # Convert the records to a DataFrame
 df1 = pd.DataFrame(records)
