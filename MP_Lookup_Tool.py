@@ -30,34 +30,40 @@ records = []
 
 # Define a function to fetch data from the API
 def fetch_data(counter):
-    try:
-        response = requests.get(f"https://members-api.parliament.uk/api/Location/Constituency/Search?name=?&skip={counter}&take=20")
-        items = response.json()
-        for item in items['items']:
-            MPid = item['value']['currentRepresentation']['member']['value']['id']
-            nameDisplayAs = item['value']['currentRepresentation']['member']['value']['nameDisplayAs']
-            nameFullTitle = item['value']['currentRepresentation']['member']['value']['nameFullTitle']
-            nameAddressAs = item['value']['currentRepresentation']['member']['value']['nameAddressAs']
-            constituencyName = item['value']['name']
-            constituencyID = item['value']['id']
-            party = item['value']['currentRepresentation']['member']['value']['latestParty']['name']
-            # tweak the below
-            contactRequest = requests.get("https://members-api.parliament.uk/api/Members/"+str(MPid)+"/Contact")
-            contactResponse = contactRequest.json()
-            try: 
-                email = contactResponse['value'][0]['email']
-            except:
-                email = "Null"
-            records.append({"MP ID": int(MPid), 
-                            "Name": nameDisplayAs, 
-                            "Full title": nameFullTitle, 
-                            "Address as": nameAddressAs, 
-                            "Constituency ID": int(constituencyID), 
-                            "Constituency": constituencyName, 
-                            "email": email,
-                            "Party": party})
-    except Exception as e:
-        print(f"Error: {e}")
+  count=0
+  if not isinstance(counter, int):
+        raise TypeError("Counter can only be whole number")
+    else: 
+      try:
+          response = requests.get(f"https://members-api.parliament.uk/api/Location/Constituency/Search?name=?&skip={counter}&take=20")
+          items = response.json()
+          for item in items['items']:
+              MPid = item['value']['currentRepresentation']['member']['value']['id']
+              nameDisplayAs = item['value']['currentRepresentation']['member']['value']['nameDisplayAs']
+              nameFullTitle = item['value']['currentRepresentation']['member']['value']['nameFullTitle']
+              nameAddressAs = item['value']['currentRepresentation']['member']['value']['nameAddressAs']
+              constituencyName = item['value']['name']
+              constituencyID = item['value']['id']
+              party = item['value']['currentRepresentation']['member']['value']['latestParty']['name']
+        
+              contactRequest = requests.get("https://members-api.parliament.uk/api/Members/"+str(MPid)+"/Contact")
+              contactResponse = contactRequest.json()
+              try: 
+                  email = contactResponse['value'][0]['email']
+              except:
+                  email = "Null"
+              records.append({"MP ID": int(MPid), 
+                              "Name": nameDisplayAs, 
+                              "Full title": nameFullTitle, 
+                              "Address as": nameAddressAs, 
+                              "Constituency ID": int(constituencyID), 
+                              "Constituency": constituencyName, 
+                              "email": email,
+                              "Party": party})
+              count+=1
+      except Exception as e:
+          print(f"Error: {e}")
+      Return count
         
 # Use ThreadPoolExecutor to make parallel requests
 with ThreadPoolExecutor(max_workers=33) as executor:
