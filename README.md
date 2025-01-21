@@ -12,14 +12,18 @@ Further functionally could be added such as the ability to view results in the a
 
 ## Plan
 This project will be completed using an Agile methodology, using sprints to add features and fix bugs, whilst also producing the minimum viable product as soon as possible.  A test-driven development approach will also be used where appropriate to catch potential issues quickly (Yogesh, Vimala, 2020). 
+
 To manage this project GitHub Projects will be used. Issues will be raised to provide tickets, these can be either for features to be added, or for testers to raise bug issues. Using a board view in the project, tickets can be progressed sequentially across the 4 categories (to do, in progress, in review, done). This way progress is tracked and all potential contributors to the projects can easily see at what stage each of the requirements is currently in. 
+
 The requirements of the project will be listed at the start of the project, then using the agile method the most important tickets will be selected for that sprint. For a project this size the sprints would be relatively short, but will still contain the planning, implementation, review which will allow for the test-driven development method to catch potential issues within the sprint and retrospective phases. The minimum viable product can then be deployed and user testers allowed to give feedback. If the testers have proposals or bugs issues they can raise tickets, these may then in turn become priorities in the next sprint if they are urgent. The reason for using the Agile approach over other methods such as waterfall development is that there is a strong chance user requirements could change throughout the project life cycle, agile is more suited to developing software with changing requirements, with agile principles embracing changing customer needs (Agile manifesto, 2001). However, it is worth noting that there is no universal best approach to software development and that another project may be more suited to a non-agile approach (Kuhrmann, et al, 2022).
 
 ## Development
 The first sprint of the project was used to address the three most important issues, which where to create the python file, create a working API request which would pull in the raw data and to then export that data in an Excel format. The reason these are the most important tickets is that they provide the minimum viable product by pulling the desired information from the website and putting into an accessible format that users could work with. This aligns with the agile methodology by producing a working product as fast as possible with the intention of then making improvements (Agile manifesto, 2001). As part of this sprint the test-driven development approach was used, both white box and black box testing were used with each having different advantages, such as black box testing allowing non-technical staff to test the product, and white box testing helping to optimize code (Verma, et al, 2017). The development team used white box to check the code for errors, and user testers used black box testing. Neither revealed issues however feedback for changes to be made was given in the form of two new issues; add a field for political party and change the output file type to CSV. 
 
 The second sprint was used to address the two previously raised tickets. The reason for this is that these affected the minimum viable product as required by the end user and therefore took priority over other previously decided requirements. Again, these changes were put through testing. The user testing again revealed an issue which was that the output was returning too many results. There are 650 MPs in parliament, but the output was returning over 900 which is obviously incorrect. This issue was raised as a bug.  
+
 The third sprint was used to address the bug raised in the previous round as this clearly affected the viability of the product, also this sprint added a function for the API request in addition to adding a date and time to the output folder for better auditing of outputs. The reason for turning the API request in to a function is that due to potential future additions to the programme it was decided that a functional style of programme would be easier to maintain by the users going forward (Zhang, et al, 2024). This also allows for unit testing and proper implementation of the test-driven developments approach as unit test can be run any time the code is changed to ensure functionality has not been inadvertently broken (Fang, et al (2023). User testing in this sprint produced a new issue from the testing team requesting improved performance as the programme ran very slowly on machines with lower performance.
+
 The fourth sprint was used to improve the performance of the code by adding threading. This was in response the issue raised in the previous round of testing suggesting that the performance should be improved. This feature is currently in review with the changes still to be signed off from the test team. This sprint also contains the adding of a filter for political parties which is currently being worked on. Future sprints will add a GUI to make the user experience easier and take advantage of the filter added this sprint. 
 
 ## User Documentation
@@ -30,10 +34,10 @@ This programme is used for retrieving the details of sitting MP across the UK. U
 ### Requirements:
 To run this program Python must be installed. Python version used is 3.10.11. 
 Libraires required for this script are: 
-  •	Pandas – version 2.2.2
-  •	Request – version 2.32.3
-  •	Datetime – Included with Python
-  •	Concurrent.futures – Included with Python
+•	Pandas – version 2.2.2
+•	Request – version 2.32.3
+•	Datetime – Included with Python
+•	Concurrent.futures – Included with Python
 
 ### Using the Program: 
 To use this programme, ensure all requirements are installed. Run the MP_Lookup_Tool.py file either in the terminal or in an IDE of your choice. No additional inputs are needed, the programme will produce a CSV file with the naming convention “YYYYMMDD-mp_detail.csv” with the YYYYMMDD section representing the current Year month and day, this is done for auditing purposes. 
