@@ -28,59 +28,59 @@ The fourth sprint was used to improve the performance of the code by adding thre
 
 ## User Documentation
 
- ### Purpose:
-  This programme is used for retrieving the details of sitting MP across the UK. Using the parliamentary website API to pull up to date details of all MPs including name, title, constituency, email address and political   party
+### Purpose:
+This programme is used for retrieving the details of sitting MP across the UK. Using the parliamentary website API to pull up to date details of all MPs including name, title, constituency, email address and political   party
 
- ### Requirements:
-  To run this program Python must be installed. Python version used is 3.10.11. 
-  Libraires required for this script are: 
-   *	Pandas – version 2.2.2
-   *	Request – version 2.32.3
-   * Datetime – Included with Python
-   *	Concurrent.futures – Included with Python
+### Requirements:
+To run this program Python must be installed. Python version used is 3.10.11. 
+Libraires required for this script are: 
+ *	Pandas – version 2.2.2
+ *	Request – version 2.32.3
+ * Datetime – Included with Python
+ *	Concurrent.futures – Included with Python
 
- ### Using the Program: 
-  To use this programme, ensure all requirements are installed. Run the MP_Lookup_Tool.py file either in the terminal or in an IDE of your choice. No additional inputs are needed, the programme will produce a CSV file     with the naming convention “YYYYMMDD-mp_detail.csv” with the YYYYMMDD section representing the current Year month and day, this is done for auditing purposes. 
+### Using the Program: 
+To use this programme, ensure all requirements are installed. Run the MP_Lookup_Tool.py file either in the terminal or in an IDE of your choice. No additional inputs are needed, the programme will produce a CSV file     with the naming convention “YYYYMMDD-mp_detail.csv” with the YYYYMMDD section representing the current Year month and day, this is done for auditing purposes. 
 
 ## Technical Documentation
 
- ### Requirements: 
-  To run this program Python must be installed. Python version used is 3.10.11. 
-  Libraires required for this script are: 
-    *	Pandas – version 2.2.2
-    *	Request – version 2.32.3
-    *	Datetime – Included with Python
-    *	Concurrent.futures – Included with Python
+### Requirements: 
+To run this program Python must be installed. Python version used is 3.10.11. 
+Libraires required for this script are: 
+ *	Pandas – version 2.2.2
+ *	Request – version 2.32.3
+ *	Datetime – Included with Python
+ *	Concurrent.futures – Included with Python
 
- ### API Details: 
-  The API used in this programme is available on the developer page of the parliamentary website found here: https://developer.parliament.uk/. There are number of APIs available the one used for this programme is the      members-api then under location use /api/Location/Constituency/Search. 
+### API Details: 
+The API used in this programme is available on the developer page of the parliamentary website found here: https://developer.parliament.uk/. There are number of APIs available the one used for this programme is the      members-api then under location use /api/Location/Constituency/Search. 
 
- ### Return Results:
-  The response from the API is store in a variable initialrequest and comes in a JSON format. This contain a large number of fields not all of which are relevant but could be extracted if required. From this the max       number of records is found, this value should equal 650. 
+### Return Results:
+The response from the API is store in a variable initialrequest and comes in a JSON format. This contain a large number of fields not all of which are relevant but could be extracted if required. From this the max       number of records is found, this value should equal 650. 
 
- ### Storing Results: 
-  To store the results, an empty pandas dataframe is used listing all the desired fields. The output file is also defined using the datetime library. The current day month and year is found using this library and          appended to the output file name using an f string.  Finally, an empty list called records is created, this will store the results of the function fetch_data and will in turn be used to populate the empty dataframe. 
+### Storing Results: 
+To store the results, an empty pandas dataframe is used listing all the desired fields. The output file is also defined using the datetime library. The current day month and year is found using this library and          appended to the output file name using an f string.  Finally, an empty list called records is created, this will store the results of the function fetch_data and will in turn be used to populate the empty dataframe. 
 
- ### Fetch_data Function: 
-  The function takes an input of a number, this is due to the later use of threads and running multiple iteration of the function in parallel. Therefore, each parallel function needs to be working on different returned    results (More details on this in the threading section). A new response variable is created for the relevant number of records. This is stored in a JSON format in variable ‘items’. Using a for loop each item is          selected the relevant fields assigned to variables. 
-  Required fields:
-    *	MPID
-    *	nameDisplayAs
-    *	nameFullTitle
-    *	nameAddressAs
-    *	constituencyName
-    *	constituencyID
-    *	party
-    *	Email
+### Fetch_data Function: 
+The function takes an input of a number, this is due to the later use of threads and running multiple iteration of the function in parallel. Therefore, each parallel function needs to be working on different returned    results (More details on this in the threading section). A new response variable is created for the relevant number of records. This is stored in a JSON format in variable ‘items’. Using a for loop each item is          selected the relevant fields assigned to variables. 
+Required fields:
+ *	MPID
+ *	nameDisplayAs
+ *	nameFullTitle
+ *	nameAddressAs
+ *	constituencyName
+ *	constituencyID
+ *	party
+ *	Email
   
-  For the email field this is not included in the existing request. A new request to the members API must be used. Using the MPID in the current iteration of the for loop a new request is made to               
-  "https://membersapi.parliament.uk/api/Members/"+str(MPid)+"/Contact". This is again returned in JSON format and the email field returned to a variable where possible, although some MPs don’t list an email address, in    these cases a null value is returned. All stored variables are then added to the records list as a dictionary. This results in a list of dictionaries, with each dictionary containing the detail for one MP. 
+For the email field this is not included in the existing request. A new request to the members API must be used. Using the MPID in the current iteration of the for loop a new request is made to               
+"https://membersapi.parliament.uk/api/Members/"+str(MPid)+"/Contact". This is again returned in JSON format and the email field returned to a variable where possible, although some MPs don’t list an email address, in    these cases a null value is returned. All stored variables are then added to the records list as a dictionary. This results in a list of dictionaries, with each dictionary containing the detail for one MP. 
 
- ### Threading: 
-  To improve the performance of the programme threading is used. This uses the concurrent.futures library in particular the Threadexecutorpool. The max_workers must be stated, in this case 33 is the chosen number. The   reason for this is that MP records will be dealt with in batches of 20, since there are 650 MPs and 33 x 20 = 660 this means that all records will be selected as quickly as possible. A for loop is used with the range of the max number of MPs which should be 650, this range is broken down into groups of 20 and each will be assigned to a thread to work in parallel. The executor runs the fetch_data function with the previously established counter values as the input. 
+### Threading: 
+To improve the performance of the programme threading is used. This uses the concurrent.futures library in particular the Threadexecutorpool. The max_workers must be stated, in this case 33 is the chosen number. The   reason for this is that MP records will be dealt with in batches of 20, since there are 650 MPs and 33 x 20 = 660 this means that all records will be selected as quickly as possible. A for loop is used with the range of the max number of MPs which should be 650, this range is broken down into groups of 20 and each will be assigned to a thread to work in parallel. The executor runs the fetch_data function with the previously established counter values as the input. 
 
- ### Returning Results: 
-  The records list of dictionaries is inserted into the blank dataframe previously created. The values if each record will be inserted into a row in the dataframe. The dataframe is then export as a CSV file using the existing filename naming convention.  
+### Returning Results: 
+The records list of dictionaries is inserted into the blank dataframe previously created. The values if each record will be inserted into a row in the dataframe. The dataframe is then export as a CSV file using the existing filename naming convention.  
 
 ## Evaluation
 The programme successfully achieves the basic requirements allowing users to quickly acquire all serving MP details. Several improvements were made to the minimum viable product version throughout the development life cycle, such as exporting result to a desired file format, and improving the performance of the programme with the addition of threading. This provides users with a working tool that performs adequately. 
