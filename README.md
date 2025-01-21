@@ -7,7 +7,8 @@ Within my role in the Department for Education on occasion mine and other teams 
 ## Design
 Initially this will be developed as a python script that can be run by individuals as need to produce a complete and up to date list of all sitting MPs. The intention is to add additional functionality, such as exporting the file in a desired format, adding the ability to filter the output by political party and create a GUI so that the tool is accessible to non-technical staff. Figure 1 demonstrates the initial GUI design created using Figma (Figma.com, 2025). 
 
-(PIC)
+![Tool GUI](https://www.figma.com/design/51B72ZJcoVF3ewGDd5mRBg/MP-Lookup-GUI?node-id=0-1&m=dev&t=5Xg2bMhfjAOxaIQR-1)
+
 Further functionally could be added such as the ability to view results in the app, include house of lords results and increase the number of filters available. But these considerations are outside the current scope of the project.  
 
 ## Plan
