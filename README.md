@@ -34,10 +34,10 @@ This programme is used for retrieving the details of sitting MP across the UK. U
 ### Requirements:
 To run this program Python must be installed. Python version used is 3.10.11. 
 Libraires required for this script are: 
-•	Pandas – version 2.2.2
-•	Request – version 2.32.3
-•	Datetime – Included with Python
-•	Concurrent.futures – Included with Python
+*	Pandas – version 2.2.2
+*	Request – version 2.32.3
+* Datetime – Included with Python
+*	Concurrent.futures – Included with Python
 
 ### Using the Program: 
 To use this programme, ensure all requirements are installed. Run the MP_Lookup_Tool.py file either in the terminal or in an IDE of your choice. No additional inputs are needed, the programme will produce a CSV file with the naming convention “YYYYMMDD-mp_detail.csv” with the YYYYMMDD section representing the current Year month and day, this is done for auditing purposes. 
@@ -72,6 +72,7 @@ Required fields:
   •	constituencyID
   •	party
   •	Email
+  
 For the email field this is not included in the existing request. A new request to the members API must be used. Using the MPID in the current iteration of the for loop a new request is made to "https://membersapi.parliament.uk/api/Members/"+str(MPid)+"/Contact". This is again returned in JSON format and the email field returned to a variable where possible, although some MPs don’t list an email address, in these cases a null value is returned. All stored variables are then added to the records list as a dictionary. This results in a list of dictionaries, with each dictionary containing the detail for one MP. 
 
 ### Threading: 
@@ -83,6 +84,7 @@ The records list of dictionaries is inserted into the blank dataframe previously
 ## Evaluation
 The programme successfully achieves the basic requirements allowing users to quickly acquire all serving MP details. Several improvements were made to the minimum viable product version throughout the development life cycle, such as exporting result to a desired file format, and improving the performance of the programme with the addition of threading. This provides users with a working tool that performs adequately. 
 However, it could be improved in several ways. Firstly, the completion of the remaining issues. Currently the program is only accessible using a Python script, whilst this is manageable for many more technically knowledgeable staff for many users this would be a barrier to entry and could cause issues. Therefore, completing the GUI aspect of the project would significantly improve this. However, a stage further would be to wrap the whole programme in an executable containing all the requirements. This would make the easiest to use solution for users. Also adding the ability to filter on political party would potentially reduce errors cause by users manually filtering the current output of the program. Therefore, this would be desirable to include if the project budget/timeline allows. Since this project is using the agile methodology producing a viable minimum product was the priority and additional feature will only be added if time and budget allow.  The Agile method of project management was appropriate for the project as it allowed for a flexible development considering changing user requirements.  And delivering a MVP as quickly as possible.  
+
 The program takes advantage of functions, and therefore the ability to unit test allowing for the use of a test-driven development style. This helps identify issue early in the development cycle, helping lower the possibility of major bugs being found later when they are more difficult/expensive to fix. However, the use of functions could have been expanded further. For example, the conversion of both the records list to a dataframe and the dataframe to a csv file could both have been performed in a function. This would have allowed these to be include in the unit tests. 
 In conclusion the product produced performs its requirement adequately. It was developed successfully using both the agile and test-driven development methodologies successfully using GitHub projects as the project management tool. There is scope to further develop the product to add functionality and increase useability. And in doing so refactor the existing code to further align with a test-driven style. 
 
